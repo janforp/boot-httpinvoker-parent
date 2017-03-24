@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * Created by Janita on 2017-03-24 14:33
+ * 若不实现序列化则：java.io.NotSerializableException: com.janita.invoker.server.bean.User
  */
 public class User implements Serializable {
 

@@ -1,5 +1,6 @@
 package com.janita.invoker.server.invoker;
 
+import com.janita.invoker.server.service.IAnimalService;
 import com.janita.invoker.server.service.IUserService;
 import com.janita.invoker.server.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,32 @@ public class ServerInvokerExporter {
     @Autowired(required = false)
     private IUserService userService;
 
+    @Autowired(required = false)
+    private IAnimalService animalService;
+
     /**
      * name = "/remote/userService" 客户的的服务的url就是：
      * IP:PORT/remote/userService
      * @return
      */
     @Bean(name = "/remote/userService")
-    public HttpInvokerServiceExporter httpInvokerServiceExporter(){
+    public HttpInvokerServiceExporter userService(){
         HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
         exporter.setService(userService);
         exporter.setServiceInterface(IUserService.class);
+
+        return exporter;
+    }
+
+    /**
+     * 调用url：http://localhost:9999/remote/animalService
+     * @return
+     */
+    @Bean(name = "/remote/animalService")
+    public HttpInvokerServiceExporter animalServic(){
+        HttpInvokerServiceExporter exporter = new HttpInvokerServiceExporter();
+        exporter.setService(animalService);
+        exporter.setServiceInterface(IAnimalService.class);
 
         return exporter;
     }

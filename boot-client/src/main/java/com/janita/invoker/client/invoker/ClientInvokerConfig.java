@@ -1,5 +1,6 @@
 package com.janita.invoker.client.invoker;
 
+import com.janita.invoker.server.service.IAnimalService;
 import com.janita.invoker.server.service.IUserService;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -27,6 +28,10 @@ public class ClientInvokerConfig {
         return bean;
     }
 
+    /**
+     * 此方法跟下面的作用是一样的
+     * @return
+     */
 //    @Bean
 //    public IUserService userService(){
 //        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
@@ -40,8 +45,19 @@ public class ClientInvokerConfig {
     @Bean
     public HttpInvokerProxyFactoryBean userService(){
         HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
+        //此路径是由方法提供项目中暴露的bean的name决定的（@Bean(name = "/remote/userService")）
         bean.setServiceUrl("http://localhost:9999/remote/userService");
         bean.setServiceInterface(IUserService.class);
+        bean.setHttpInvokerRequestExecutor(httpComponentsHttpInvokerRequestExecutor());
+
+        return bean;
+    }
+
+    @Bean
+    public HttpInvokerProxyFactoryBean animalService(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
+        bean.setServiceUrl("http://localhost:9999/remote/animalService");
+        bean.setServiceInterface(IAnimalService.class);
         bean.setHttpInvokerRequestExecutor(httpComponentsHttpInvokerRequestExecutor());
 
         return bean;
